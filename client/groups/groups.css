@@ -1,0 +1,15 @@
+        .modal-content.user-invite-modal{
+                max-height: calc(100vh - 100px);
+        }
+
+        .user-invite-data{
+            border:1px solid #efefef;
+            border-radius: 4px;
+            padding:7px 10px;
+        }
+        .user-invite img{
+            border-radius:50%;
+            border:1px solid #ddd;
+            height: 40px;
+            width:40px;
+        }

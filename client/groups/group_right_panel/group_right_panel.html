@@ -1,0 +1,455 @@
+<template name="group_right_panel">
+  <style type="text/css">
+    .add-member {
+         padding: 5px !important;
+    }
+    .join-drop{
+          background-color: #ff1e00;
+          border-radius: 25px;
+          color: #fff !important;
+          padding: 10px !important;
+          height: 45px;
+          font-weight: 700;
+          text-align: center;
+          border-color: #ff1e00 !important;
+          font-size: 15px;
+    }
+    .font-size-25{
+      font-size: 25px;
+    }
+
+     .font-size-20{
+      font-size: 20px;
+    }
+
+    .question-author {
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-align: center;
+        align-items: center;
+        padding: 0px 0;
+    }
+    .question-author img {
+        display: block;
+        height: 38px;
+        width: 38px;
+        min-width: 38px;
+        border-radius: 50%;
+            margin: 0;
+    }
+    .question-author .meta {
+        margin-left: 12px;
+    }
+    .question-author .meta span:first-child {
+        font-family: 'Muli', sans-serif;
+        font-weight: 600;
+        color: #393a4f;
+        font-size: .9rem;
+    }
+    .question-author .meta span {
+        display: block;
+      }
+    .question-author .meta span:nth-child(2) {
+        font-size: .85rem;
+        color: #333;
+    }
+    .border-radius-50{
+      border-radius: 50%;
+      height:50px;
+      width: 50px;
+    }
+    /*.questions-side-card img {
+        display: block;
+        max-width: 100%;
+        max-height: 150px;
+        width: 100%;
+    }*/
+  </style>
+        <div class="column is-3">
+
+           {{#if check_if_group_detail_page}}
+           <!-- <div id="group_member_or_not" class="mb-20 text-center" >
+              <select name="sources" id="member_status"  class="custom-select sources join-drop " placeholder="Source Type">
+                <option selected="true" value="member">Joined</option>
+                <option value="leave">Leave Group</option>
+              </select>
+              
+          </div> -->
+           <div class="card is-new-job-card p-4" >
+              <div class="card-body ">
+                 <div>
+                    <div class="job-content">
+                      <!-- {{#each fetch_group_based_on_group_id}} -->
+                       <h3 class="mb-10 font-size-25">
+                        {{#each fetch_logged_in_user}}
+                        <b> Hi, {{name}}</b>
+                        {{/each}}
+                      </h3>
+                      <!-- {{/each}} -->
+                       <p class="dark-gray-color mb-10">Click on start discussion to create discussions in the group.</p>
+                       <a >
+                          <a id="chnage_text" type="button" class="button read-more-btn on-hover pointer">
+                             <!-- Start Discussion -->
+                              {{#if check_if_user_is_member_of_group}}
+                                Start Discussion
+                                {{else}} 
+                                Join Group 
+                                {{/if}}
+                          </a>
+                       </a>
+                    </div>
+                 </div>
+              </div>
+           </div>
+           {{else}}
+              {{#each fetch_group_based_on_group_id}}
+                 <div class="questions-side-card" id="read_more">
+                    <img src="{{cover_image}}" class="pointer" alt="">
+                    <h4 title="{{group_name}}"><b class="pointer">{{trim_content 30 group_name}}</b></h4>
+                    <div class="question-author mt-10">
+                        {{#if Data}}
+                        {{#each Data}}
+                        <img title="{{name}}" class="redirect_to_profile pointer" src="{{profile_picture}}" data-demo-src="{{profile_picture}}" data-user-popover="1" alt="">
+                        <div class="meta">
+                            <span class="redirect_to_profile pointer">{{name}} 
+                              {{#if premium_user}}
+                              <img class="premium_badge" src="/frontend-assets/images/checked.png">
+                              {{/if}} <i>(Admin)</i></span>
+                              
+                            <span>{{position}} ({{school_name}})</span>
+                        </div>
+                        {{/each}}
+                        {{else}}
+                        <img src="/frontend-assets/images/avatars/dan.jpg" data-demo-src="/frontend-assets/images/avatars/dan.jpg" data-user-popover="1" alt="">
+                        <div class="meta">
+                            <span>Dan Walker (Admin)</span>
+                            <span>Instructor, Coach, Consultant (University of Calgary)</span>
+                        </div>
+                        {{/if}}
+                    </div>
+                    <p class="mt-10 pointer">{{{trim_content 100 group_description}}} <a  class="standard-link pointer" href="">more </a> 
+                    </p>
+                    <div class="friend-card ">
+                      <div class="friend-stats">
+                          <div class="stat-block">
+                            <label>Discussion(s)</label>
+                            {{#each fetch_group_based_on_group_id}}
+                              <div  class="stat-number">
+                                <a href="#">{{total_discussions}}</a>
+                              </div>
+                            {{/each}}
+                          </div>
+                          <div class="stat-block">
+                            <label>Member(s)</label>
+                            <div class="stat-number">
+                              <a href="#">{{return_total_member_of_group}}</a>
+                            </div>
+                          </div>
+                      </div>
+                    </div>
+                 </div>
+              {{/each}}
+           {{/if}}
+          
+          <!--  visible only detail page -->
+          {{#if check_if_group_detail_page}}
+            <div class="card is-post">
+                <div class="card-heading  pb-3"> <!-- is-bordered -->
+                  <h4>
+                    Discussion(s)
+                 </h4>
+                 <div class="dropdown is-spaced is-right dropdown-trigger">
+                    <div>
+                       <div class="">
+                        {{#each fetch_group_based_on_group_id}}
+                          <a id="redirect_to_discussions" class="modal-trigger">{{total_discussions}}</a> 
+                          {{/each}}
+                       </div>
+                    </div>
+                 </div>
+                  <!-- <div class="columns width-100">
+                    <div class="column col-10 pt-0 pl-0 pb-3">
+                      <h3 class="">
+                          Discussion(s)
+                      </h3>
+                    </div>
+                    <div class="column col-4 pt-0 pl-0 pb-3">
+                      {{#each fetch_group_based_on_group_id}}
+                      <div class="dropdown is-spaced is-right dropdown-trigger">
+                          <h4 class="font-size-20" >{{total_discussions}}</h4> 
+                      </div>
+                      {{/each}}
+                    </div>
+                  </div> -->
+                </div>
+                <!-- <div class="card-body no-padding ">
+                  <div class="add-friend-block transition-block pl-0 pr-0">
+                        <img src="/frontend-assets/images/avatars/dan.jpg" data-demo-src="/frontend-assets/images/avatars/dan.jpg" title="Dan(Created by)"  alt="Dan" class="border-radius-50">
+                        <a  class="page-meta">
+                            <span class="blog_title">Discussion Title</span>
+                            <span class="author_name">Discussion Description go here till 50 words</span>
+                        </a>
+                  </div>
+                  <div class="add-friend-block transition-block pl-0 pr-0">
+                        <img src="/frontend-assets/images/avatars/dan.jpg" data-demo-src="/frontend-assets/images/avatars/dan.jpg" title="Dan(Created by)"  alt="Dan" class="border-radius-50">
+                        <a  class="page-meta">
+                            <span class="blog_title">Discussion Title</span>
+                            <span class="author_name">Discussion Description go here till 50 words</span>
+                        </a>
+                  </div>
+                  <div class="add-friend-block transition-block pl-0 pr-0">
+                        <img src="/frontend-assets/images/avatars/dan.jpg" data-demo-src="/frontend-assets/images/avatars/dan.jpg" title="Dan(Created by)"  alt="Dan" class="border-radius-50">
+                        <a  class="page-meta">
+                            <span class="blog_title">Discussion Title</span>
+                            <span class="author_name">Discussion Description go here till 50 words</span>
+                        </a>
+                  </div>
+                  <div class="width-100 text-center">
+                    <a href="#">View more</a>
+                  </div>
+                </div> -->
+            </div>
+          {{/if}}
+         <!--  <div class="card is-post">
+              <div class="card-heading padding-bottom-16">
+                 <h4><a class="modal-trigger color-aaa" data-modal="total-members">
+                    Members(s)</a>
+                 </h4>
+                 <div class="dropdown is-spaced is-right dropdown-trigger">
+                    <div>
+                       <div class="">
+                          <a class="modal-trigger" data-modal="total-members">{{return_total_member_of_group}}</a> 
+                       </div>
+                    </div>
+                 </div>
+              </div>
+           </div> -->
+           <div class="card is-post">
+              <div class="card-heading is-bordered pb-3">
+                 <h4><a class="modal-trigger color-aaa" data-modal="total-members">
+                    Members </a>
+                 </h4>
+                 <div class="dropdown is-spaced is-right dropdown-trigger">
+                    <div>
+                       <div class="">
+                          <a id="view_modals" class="modal-trigger " data-modal="total-members">View All</a> 
+                       </div>
+                    </div>
+                 </div>
+              </div>
+              <div class="content-wrap">
+                 <div class="card-footer">
+                    <div class="likers-group">
+                       {{#each fetch_total_member_in_group}}
+                       <img src="{{profile_picture}}" data-demo-src="{{profile_picture}}" data-user-popover="3" alt="">
+                       {{/each}}
+                    </div>
+                 </div>
+              </div>
+           </div>
+    {{#each fetch_group_based_on_group_id}}
+          {{#if equals created_by logged_in_user_id}}
+           <div class="card">
+              <div class="card-heading is-bordered">
+                 <h4>Invited Member(s) </h4>
+                {{#each fetch_group_based_on_group_id}}
+                 {{#if equals created_by logged_in_user_id}}
+                 <div id="invite_members_modal" class="dropdown is-spaced is-right dropdown-trigger">
+                    <div>
+                       <div class="button">
+                          <a class="button modal-trigger add-member " data-modal="invite-members"><svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></a> 
+                       </div>
+                    </div>
+                 </div>
+                 {{/if}}
+                 {{/each}}
+              </div>
+              <div class="card-body no-padding">
+                 {{#each already_invited_members}}
+                 <div class="add-friend-block transition-block">
+                    <img src="{{profile_picture}}" data-demo-src="{{profile_picture}}" data-user-popover="9" alt="">
+                    <div class="page-meta">
+                       <span>{{name}}</span>
+                       <span>{{province}} {{city}}</span>
+                    </div>
+                    <!-- <div class="add-friend add-transition action modal-trigger" data-placement="bottom" data-title="Widthdraw Request" data-modal="widthdraw-request-modal">
+                       <i data-feather="x"></i>
+                       </div> -->
+                  <!-- {{#unless equals user_id logged_in_user_id}} -->
+                       
+                            <!-- {{/unless}} -->
+                 </div>
+                 {{else}}
+                 <div class="add-friend-block transition-block">
+                    <div class="page-meta">
+                       <span>No one is invited </span>
+                    </div>
+                 </div>
+                 {{/each}}
+                 <!--                                     
+                    {{/if}} -->
+              </div>
+           </div>
+             {{/if}}
+                 {{/each}}
+        </div>
+        <div id="invite-members" class="modal user-photos-modal is-medium has-light-bg">
+           <div class="modal-background"></div>
+           <div class="modal-content">
+              <!-- Card -->
+              <div class="card">
+                 <div class="card-heading">
+                    <h3>Invite Members</h3>
+                    <!-- Close X button -->
+                    <div class="close-wrap">
+                       <span class="close-modal">
+                       <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                       </span>
+                    </div>
+                 </div>
+                 <!-- Card body -->
+                 <div class="card">
+                    <div class="card-body no-padding">
+                       <!-- Suggested friend -->
+                       {{#each fetch_all_members_which_are_in_the_group}}
+                       <div class="add-friend-block transition-block">
+                          <img src="{{profile_picture}}" data-demo-src="{{profile_picture}}" data-user-popover="9" alt="">
+                          <div class="page-meta">
+                             <span>{{name}}</span>
+                             <span>{{province}}</span>
+                          </div>
+                          <div class="add-friend add_mwmber-Checkbox add-transition">
+                             <div class="basic-checkbox">
+                                <input value="{{user_id}}"  name="options1"  class="invite-checkbox styled-checkbox" id="styled-checkbox-{{_id}}" type="checkbox">
+                                <label for="styled-checkbox-{{_id}}"></label>
+                             </div>
+                          </div>
+                       </div>
+                       {{else}}
+                       {{>no_data_connection_found_invite_group}}
+                       {{/each}} 
+                    </div>
+                 </div>
+                 {{#if fetch_all_members_which_are_in_the_group}}
+                 <div class="card-footer">
+                    <button class="invite_mem button is-solid accent-button replace-button"> Invite</button>
+                 </div>
+                 {{/if}}
+              </div>
+           </div>
+        </div>
+        <div id="total-members" class="modal user-photos-modal is-medium has-light-bg">
+           <div class="modal-background"></div>
+           <div class="modal-content">
+              <!-- Card -->
+              <div class="card">
+                 <div class="card-heading">
+                    <h3>Members {{return_total_member_of_group}}</h3>
+                    <!-- Close X button -->
+                    <div class="close-wrap">
+                       <span class="close-modal">
+                       <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                       </span>
+                    </div>
+                 </div>
+                 <!-- Card body -->
+                 <div class="card ">
+                    <div class="card-body no-padding">
+                       <!-- Suggested friend -->
+                       {{#each fetch_total_member_in_group}}
+                       <div class="add-friend-block transition-block">
+                          <img src="{{profile_picture}}" data-demo-src="{{profile_picture}}" data-user-popover="9" alt="">
+                          <div class="page-meta">
+                             <span>{{name}}</span>
+                             <span>{{province}} {{city}}</span>
+                          </div>
+                         {{#if check_if_user_is_admin}}
+                          {{#unless equals user_id logged_in_user_id}}
+                           <div id="remove_user_from_group" class="add-friend add_mwmber-Checkbox add-transitio">
+                                <a href="">Remove  <i class="fa fa-spinner fa-pulse fa-1x fa-fw display_hidden" id="remove_{{user_id}}"></i> 
+                                </a>
+                            </div>
+                            {{/unless}}
+                         {{/if}}
+                      </div>
+
+                       {{else}}
+                       <div>
+                         <div>
+
+
+                           {{>no_data_member_found_group}}
+                         </div>
+                       </div>
+                      
+                       {{/each}}
+                    </div>
+                 </div>
+              </div>
+           </div>
+        </div>
+
+
+      <!-- <div id="leave_group" class="modal upload-crop-cover-modal is-small has-light-bg">
+        <div class="modal-background"></div>
+        <div class="modal-content">
+            <div class="card">
+              <div class="card-heading">
+                    <h3>Leave Group </h3>
+                   </div>
+                <div class="fc-content pr-5 pb-40 pt-0 rounded fancybox-content" style="display: inline-block;">
+                    <h2 class="title mb-10"></h2>
+                    <div class="close-wrap">
+                       <span class="close-modal">
+                       <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                       </span>
+                    </div>
+                    <p>Sure, you want to leave this group request? </p>
+                    <p class="has-text-right pull-right buttons">
+                        <a data-value="0" data-fancybox-close="" class="button close-modal">Cancel</a>
+                        <a class="button is-solid accent-button  withdraw_confirmed raised">Confirm
+                        <i id="loader" class="fa display_hidden fa-spinner fa-pulse fa-1x fa-fw"></i>
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div> -->
+
+    <div id="all_likes_modal" class="modal user-photos-modal is-medium has-light-bg">
+      <div class="modal-background"></div>
+      <div class="modal-content">
+         <!-- Card -->
+         <div class="card">
+            <div class="card-heading">
+               <h3>Likes  </h3>
+               <!-- Close X button -->
+               <div class="close-wrap">
+                  <span class="close-modal">
+                  <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                  </span>
+               </div>
+            </div>
+            <!-- Card body -->
+            <div class="card">
+               <div class="card-body no-padding">
+                  <!-- Suggested friend -->
+                  {{#each fetch_all_people_who_liked}}
+                  <div class="add-friend-block transition-block">
+                     <img src="{{profile_picture}}" data-demo-src="{{profile_picture}}" data-user-popover="9" alt="">
+                     <div class="page-meta">
+                        <span>{{name}}</span>
+                        <span>{{province}}</span>
+                     </div>
+                     
+                  </div>
+                  {{else}}
+                  {{> no_likes}}
+                  {{/each}} 
+               </div>
+            </div>
+           
+         </div>
+      </div>
+   </div>
+  </template>

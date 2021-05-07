@@ -1,0 +1,220 @@
+<template name="group_detail">
+    <style type="text/css">
+        .dropdown .button{
+            padding: 0px !important;
+            border:none;
+        }  
+    </style>
+    <div class="questions-nav">
+        <div class="inner is-scrollable">
+            <div class="container">
+                <div class="questions-nav-menu">
+                    {{#each fetch_group_based_on_group_id}}
+                    {{#if equals created_by logged_in_user}}
+                    <p class="text-white is-hidden-mobile">{{group_name}} </p>
+                    <a  href="" class="edit_group menu-item pointer">
+                        <span>
+                            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1 vertical-align-middle">
+                                <path d="M12 20h9"></path>
+                                <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+                            </svg>
+                            Edit Group
+                        </span>
+                    </a>
+                    {{else}}
+                    <a id="report_abuse_trigger" class="menu-item">
+                        <span>
+                            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1 vertical-align-middle">
+                                <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path>
+                                <line x1="4" y1="22" x2="4" y2="15"></line>
+                            </svg>
+                            Report abuse
+                        </span>
+                    </a>
+                    {{/if}} 
+                    <!-- {{#if check_user_type}}
+                        <a id="create_gp" href="" class="menu-item create border-radius-40">
+                         <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                        <span>Create Group</span>
+                        </a>
+                        {{/if}} -->
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+    </div>
+    {{#each fetch_group_based_on_group_id}}
+    <div id="profile-about" class="view-wrap is-headless">
+        <div class="columns is-multiline no-margin">
+            <!-- Left side column -->
+            <div class="column is-paddingless">
+                <!-- Timeline Header -->
+                <div class="cover-bg">
+                    <img class="cover-image" src="{{cover_image}}" data-demo-src="{{cover_image}}" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+    {{/each}}
+    <!-- Content placeholders at page load -->
+    <!-- this holds the animated content placeholders that show up before content -->
+    <!-- Feed page main wrapper -->
+    <div class="view-wrap true-dom ">
+        <div class="columns">
+            <!-- Left side column -->
+            <!-- /Left side column -->
+            <!-- Middle column -->
+            {{#each fetch_group_based_on_group_id}}
+            <div class="column is-9 question-content">
+                <!--Top Bar-->
+                <!-- Main question -->
+                <div class="question-block card padding-16">
+                    <!-- Title -->
+                    <h2 class="question-title">{{group_name}}</h2>
+                    <!-- Author -->
+                    <div class="mt-10 columns">
+                        <div class="column col-7 pull-left question-author ">
+                            {{#if Data}}
+                            {{#each Data}}
+                            <img title="{{name}}" class="redirect_to_profile pointer" src="{{profile_picture}}" data-demo-src="{{profile_picture}}" data-user-popover="1" alt="">
+                            <div class="meta">
+                                <span class="redirect_to_profile pointer">{{name}}
+                                  {{#if premium_user}}
+                                  <img class="premium_badge" src="/frontend-assets/images/checked.png">
+                                  {{/if}} <i>(Admin)</i></span>
+                                <span>{{position}} ({{school_name}})</span>
+                            </div>
+                            {{/each}}
+                            {{else}}
+                            <img src="/frontend-assets/images/avatars/dan.jpg" data-demo-src="/frontend-assets/images/avatars/dan.jpg" data-user-popover="1" alt="">
+                            <div class="meta">
+                                <span>Volleyball Unite </span>
+                                <span>Admin</span>
+                            </div>
+                            {{/if}}
+                        </div>
+                        <div  class="column col-5 pull-right text-right">
+                            <span class="is-right event-status" id="member_status">{{#if user_is_part_of_the_group}}Joined{{/if}}</span> 
+                            <div id="three_dots" class="dropdown is-spaced is-right is-neutral ">
+                                 <div>
+                                    <div class="button">
+                                       <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>
+                                    </div>
+                                 </div>
+                                 <div  class="dropdown-menu" role="menu">
+                                    <div class="dropdown-content">
+                                          {{#if equals created_by logged_in_user}}
+                                       <a class="edit_group dropdown-item">
+                                          <div class="media">
+                                            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                                                    <path d="M12 20h9"></path>
+                                                    <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+                                                </svg>
+                                             <div class="media-content">
+                                                <h3>Edit</h3>
+                                                <small>Edit this Group</small>
+                                             </div>
+                                            </div>
+                                       </a>
+
+                                       <a id="delete_group" class="dropdown-item">
+                                          <div class="media">
+                                            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                                                <polyline points="3 6 5 6 21 6"></polyline>
+                                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                                <line x1="10" y1="11" x2="10" y2="17"></line>
+                                                <line x1="14" y1="11" x2="14" y2="17"></line>
+                                            </svg>
+                                             <div class="media-content">
+                                                <h3>Delete</h3>
+                                                <small>Delete this group</small>
+                                             </div>
+                                          </div>
+                                       </a>
+                                       {{else}}
+                                       {{#if user_is_part_of_the_group}}
+                                         <a id="leave_group_trigger" class="dropdown-item">
+                                          <div class="media">
+                                            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                                                <polyline points="3 6 5 6 21 6"></polyline>
+                                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                                <line x1="10" y1="11" x2="10" y2="17"></line>
+                                                <line x1="14" y1="11" x2="14" y2="17"></line>
+                                            </svg>
+                                             <div class="media-content">
+                                                <h3>Leave</h3>
+                                                <small>Leave this Group</small>
+                                             </div>
+                                          </div>
+                                       </a>
+                                       {{/if}}
+                                       <a id="report_abuse_trigger" class="dropdown-item">
+                                          <div class="media">
+                                              <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                                    </svg>
+                                             <div class="media-content">
+                                                <h3>Report abuse</h3>
+                                                <small>In case of inappropriate content</small>
+                                             </div>
+                                          </div>
+                                       </a>
+                                       {{/if}}
+                                    </div>
+                                 </div>
+                              </div>
+                        </div>
+                    </div>
+                    <!-- Content -->
+                    <div class="question-text mt-10">
+                        {{{group_description}}}
+                    </div>
+                    <!-- Footer -->
+                </div>
+            </div>
+            {{/each}}
+            {{> Template.dynamic template=group_right_panel}}
+            <!-- /Middle column -->
+        </div>
+    </div>
+    {{> report_abuse}}
+
+
+     <div id="remove-modal" class="modal upload-crop-cover-modal is-small has-light-bg">
+      <div class="modal-background"></div>
+      <div class="modal-content">
+         <div class="card">
+            <div class="fc-content p-5 rounded fancybox-content" style="display: inline-block;">
+               <h2 class="title mb-10" id="group_name_headline"> </h2>
+               <p id="remove_text">Are you sure you want to remove this group? </p>
+               <p class="has-text-right pull-right buttons mt-10">
+                  <a data-value="0" class="button close-modal">Cancel</a>
+                  <a data-value="1" id="confirm_remove" class="button is-solid accent-button  raised">Confirm <i id="remove_group_loader" class="fa display_hidden fa-spinner fa-pulse fa-1x fa-fw"></i> </a>
+               </p>
+            </div>
+         </div>
+      </div>
+   </div>
+
+
+
+        <div id="leave_group" class="modal upload-crop-cover-modal is-small has-light-bg">
+        <div class="modal-background"></div>
+        <div class="modal-content">
+            <div class="card">
+                <div class="fc-content p-5 rounded fancybox-content" style="display: inline-block;">
+                    <h2 class="title mb-10">Leave Group </h2>
+                    <p>Sure, you want to leave this group? </p>
+                    <p class="has-text-right pull-right buttons">
+                        <a data-value="0" data-fancybox-close="" href="javascript:;" class="button close-modal">Cancel</a>
+                        <a   class="button is-solid accent-button  withdraw_confirmed raised">Confirm
+                        <i id="loader" class="fa display_hidden fa-spinner fa-pulse fa-1x fa-fw"></i>
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</template>

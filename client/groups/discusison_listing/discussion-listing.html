@@ -1,0 +1,243 @@
+<template name="discussion_listing">
+    <style>
+        .input, .textarea, .select select {
+        color: #333;
+        }
+
+        .text-gray{
+            color:#777;
+        }
+        .no-bd{
+            border-color: transparent !important;
+        }
+        .btn-update-g{
+
+        }
+    </style>
+    <div class="view-wrap true-dom">
+        <div class="columns">
+            <div class="column is-9 question-content wrapper-inner">
+               
+                {{#each fetch_logged_in_user}}
+                {{#if equals_multiple_coach_athlete_referee user_type }}
+                <div class="card is-post">
+                    <div class="comments-wrap">
+                        <!-- Comments footer -->
+                        <div class="card-footer">
+                            <div class="media post-comment">
+                                <!-- User image -->
+                                <div class="media-left">
+                                    {{#each fetch_logged_in_user}}
+                                    <p class="image is-48x48">
+                                        <img src="{{profile_picture}}" data-demo-src="{{profile_picture}}" data-user-popover="0" alt="{{name}}'s Profile Picture'">
+                                    </p>
+                                    {{/each}}
+                                </div>
+                                <!-- Textarea -->
+                                <div class="media-content">
+                                    <div class="field margin-bottom-20">
+                                        <div class="control">
+                                            <input autocomplete="off" type="text" id="title" class="input" placeholder="Enter Discussion Title">
+                                            <p  id="invalid_title" class="invalid_feedback display_hidden" >Enter discussion title</p>
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <p class="control">
+                                            <textarea autocomplete="off" id="details" class="textarea comment-textarea" rows="5" placeholder="Add some details here... "></textarea>
+                                        </p>
+                                        <p  id="invalid_desc" class="invalid_feedback display_hidden" > Please enter some details here </p>
+                                    </div>
+                                    <!-- Additional actions -->
+                                    <div class="actions">
+                                        <div class="action is-auto">
+                                            <!-- <i data-feather="at-sign"></i> -->
+                                        </div>
+                                        <div class="action is-upload">
+                                            <!--  <i data-feather="camera"></i>
+                                                <input type="file"> -->
+                                        </div>
+                                        <a id="post_comment_loader" class="is-disabled post_comment">Start Discussion
+                                        <i class="fa fa-spinner fa-pulse fa-1x fa-fw display_hidden" id="loader"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{/if}}
+                {{/each}}
+                {{#each fetch_group_discussion_based_on_group_id}}
+                <div class="card is-post">
+                    <!-- Main wrap -->
+                    <div class="content-wrap">
+                        <!-- Post header -->
+                        <div class="card-heading">
+                            <!-- User meta -->
+                            <div class="user-block">
+                                {{#each Data}}
+                                <div class="image">
+                                    <img src="{{profile_picture}}" data-demo-src="{{profile_picture}}"  alt="">
+                                    <!-- <span class="indicator"></span> -->
+                                </div>
+                                <div class="user-info">
+                                    <a href="#">
+                                        {{name}}
+                                        {{#if premium_user}}<img class="premium_badge" src="/frontend-assets/images/checked.png">{{/if}}
+                                        <!--  <i data-feather="link" style="width: 13px;"></i> -->
+                                    </a>
+                                    <span class="time">{{user_type}}</span>
+                                    <span class="time">{{calculate_time_difference ../created_at}}</span>
+                                </div>
+                                {{/each}}
+                            </div>
+                            <!-- Right side dropdown -->
+                            <!-- /includes/pages/feed/dropdowns/feed-post-dropdown.html -->
+                            <div class="dropdown is-spaced is-right is-neutral dropdown-trigger">
+                                <div>
+                                    <div class="button">
+                                        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                                            <circle cx="12" cy="12" r="1"></circle>
+                                            <circle cx="12" cy="5" r="1"></circle>
+                                            <circle cx="12" cy="19" r="1"></circle>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="dropdown-menu" role="menu">
+                                    <div class="dropdown-content">
+                                        {{#if equals created_by logged_in_user}}
+                                        <a href="" class="dropdown-item edit_discussion1">
+                                            <div class=" media">
+                                                <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                                                <div class=" media-content">
+                                                    <h3>Edit</h3>
+                                                    <small>Edit this discussion.</small>
+                                                </div>
+                                            </div>
+                                        </a>
+                                        <a href="#" class="dropdown-item delete_discussion">
+                                            <div class="media">
+                                                <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                                                    <polyline points="3 6 5 6 21 6"></polyline>
+                                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                                    <line x1="10" y1="11" x2="10" y2="17"></line>
+                                                    <line x1="14" y1="11" x2="14" y2="17"></line>
+                                                </svg>
+                                                <div class="media-content">
+                                                    <h3>Delete</h3>
+                                                    <small>Delete this discussion.</small>
+                                                </div>
+                                            </div>
+                                        </a>
+                                        {{else}}
+                                        <a id="report_discussion_abusive" class="dropdown-item">
+                                            <div class="media">
+                                                <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                                                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                                                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                                                </svg>
+                                                <div class="media-content">
+                                                    <h3>Report</h3>
+                                                    <small>In case of inappropriate content.</small>
+                                                </div>
+                                            </div>
+                                        </a>
+                                        {{/if}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /Post header -->
+                        <!-- Post body -->
+                        <div class="card-body">
+                            <!-- Post body text -->
+                            <div class="post-text">
+                                <h3><b><a href="" class="discussion_detail hover-red">{{title}}</a></b></h3>
+                                <p class="mt-20" id="visible_final_div_{{group_discussion_id}}">{{details}}</p>
+                                <div class="media-content display_hidden" id="hidden_div_{{group_discussion_id}}">
+                                    <div class="field">
+                                        <p class="control">
+                                            <textarea autocomplete="off" id="discussion_description_{{group_discussion_id}}" class="textarea comment-textarea color-dark-gray" rows="5" placeholder="Add some details here... " value="{{details}}"></textarea>       
+                                        </p>
+                                        <p id="invalid_desc" class="invalid_feedback display_hidden"> Please enter some details here </p>
+                                    </div>
+                                    <div class="actions is-auto">
+                                        <div class="action is-auto text-right">
+                                            <a class="text-gray button cancel_editing no-bd"  >Cancel</a> 
+                                            <a id="update_post_comment_{{group_discussion_id}}" class="update_discussion button is-solid text-red no-bd">
+                                            Update<i id="remove_post_loader_{{group_discussion_id}}" class="fa display_hidden fa-spinner fa-pulse fa-1x fa-fw"></i>
+                                            </a>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Featured youtube video -->
+                        </div>
+                        <!-- /Post body -->
+                        <!-- Post footer -->
+                        <div class="card-footer">
+                            <!-- Post statistics -->
+                            <div class="social-count margin-left-0">
+                                <!-- <i data-feather="heart"></i>
+                                    <span>Like</span> -->
+                                {{#if check_if_user_liked group_discussion_id}}
+                                <div id="like_comment_event" class="{{#if like_api_called}} is-disabled {{/if}} likes-count pointer">
+                                    <span class="color-red">
+                                        <svg viewBox="0 0 24 24" width="24" height="24" stroke="#ec3e37" stroke-width="2" fill="#ec3e37" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1 heart">
+                                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                                        </svg>
+                                        <span class="is-hidden-mobile">Liked</span> <span id="like_count" >{{#if check_if_any_array_exists is_creator is_follower is_following}} ({{total_likes}}){{/if}}</span>
+                                    </span>
+                                </div>
+                                {{else}}
+                                <div id="like_comment_event" class="{{#if like_api_called}} is-disabled {{/if}}likes-count">
+                                    <span>
+                                        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                                        </svg>
+                                        <span class="is-hidden-mobile"> Like </span> <span id="like_count" >{{#if check_if_any_array_exists is_creator is_follower is_following}} ({{total_likes}}){{/if}}</span>
+                                    </span>
+                                </div>
+                                {{/if}}
+                                <a class="comment" href="">
+                                    <div class="comments-count pointer">
+                                        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2"
+                                            fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                                            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                                        </svg>
+                                        <span class="is-hidden-mobile">Comment</span> <span>({{total_comments}})</span>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <!-- /Post footer -->
+                    </div>
+                    <!-- /Main wrap -->
+                </div>
+                {{/each}}
+            </div>
+            {{> Template.dynamic template=group_right_panel}}
+            <!-- /Middle column -->
+        </div>
+    </div>
+    {{> sAlert}}
+    <div id="delete-post-modal" class="modal upload-crop-cover-modal is-small has-light-bg">
+        <div class="modal-background"></div>
+        <div class="modal-content">
+            <div class="card">
+                <div class="fc-content p-5 rounded fancybox-content" style="display: inline-block;">
+                    <h2 class="title mb-10">Remove this Discussion? </h2>
+                    <p id="remove_text">Sure, you want to remove this discussion?  </p>
+                    <p class="has-text-right pull-right buttons mt-10">
+                        <a data-value="0" data-fancybox-close=""  class="button close-modal">Cancel</a>
+                        <a data-value="1" data-fancybox-close="" id="confirm_post_removal" class="button is-solid accent-button  raised">Confirm <i id="remove_post_loader" class="fa display_hidden fa-spinner fa-pulse fa-1x fa-fw"></i> </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{> report_abuse}}
+
+  
+</template>

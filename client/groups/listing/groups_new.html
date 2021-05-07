@@ -1,0 +1,134 @@
+<template name="groups_new">
+  <style type="text/css">
+      
+
+ @media only screen and (max-width: 767px){
+      .questions-nav .inner .questions-nav-menu{
+            justify-content: flex-start;
+      }
+    }
+    </style>   
+    <div class="questions-nav">
+        <div class="inner is-scrollable">
+            <div class="container mobile-s-header">
+                <div class="questions-nav-menu option-tabs is-friends">
+                    <a href="/groups/all" class="all_tab1 menu-item option-tab is-active" >
+                    <span class="all_groups" >All</span>
+                    </a>
+                    <a href="/groups/pending" class="pending_tab1 menu-item option-tab" >
+                    <span  class="pending_groups">Pending </span>
+                    </a>
+                    {{#each fetch_logged_in_user}}
+                    {{#if equals_multiple user_type }}
+                    <a href="/groups/by_me" class="created_by_me1 menu-item option-tab" >
+                    <span  class="created_by_me_group">By me </span>
+                    </a>
+                    <a  class="create_group menu-item create border-radius-40 ">
+                        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                        <span>Create Group</span>
+                    </a>
+                    {{/if}}
+                    {{/each}}                
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="section is-news videos-wrapper p-0">
+        <div class="columns categories-header home-content pt-0 mb-0">
+            <h2 class="column is-5-mobile is-3-tablet is-3-desktop">
+                Groups <!-- {{#if groups_count}}({{groups_count}}){{/if}} -->
+            </h2>
+            <div class="column collections-header is-home-v2 is-hidden-mobile is-6-desktop">
+                <div class="option-tabs is-friends">
+                    <a href="/groups/all" class="all_tab option-tab {{#if check_if_active_url 'all'}}is-active{{/if}}">
+                    <span class="all_groups_">All</span>
+                    </a>
+                    <a href="/groups/pending" class="pending_tab option-tab {{#if check_if_active_url 'pending'}}is-active{{/if}}" >
+                    <span class="pending_groups_">Pending </span>
+                    </a>
+                    {{#each fetch_logged_in_user}}
+                    {{#if equals_multiple user_type }}
+                    <a href="/groups/by_me" class="created_by_me option-tab {{#if check_if_active_url 'by_me'}}is-active{{/if}}" >
+                    <span class="created_by_me_group_">By me </span>
+                    </a>
+                    {{/if}} 
+                    {{/each}}
+                </div>
+                {{#each fetch_logged_in_user}}
+                {{#unless equals user_type 'ATHLETE'}}
+                <a class="new-create-btn create_group" >
+                    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                    Create Group
+                </a>
+                {{/unless}}
+                {{/each}}
+            </div>
+            <div class="control column is-3 is-3-tablet">
+                <div class="field is-hidden-mobile">
+                    <div class="control has-validation has-error">
+                        <input type="text" class="input" value="{{search_query}}"  id="search_query" placeholder="Search" />
+                        <div class="error-icon">
+                            {{#if active_cross_icon}}
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x">
+                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                            </svg>
+                            {{/if}}
+                        </div>
+                    </div>
+                </div>
+                <div class="is-hidden-tablet has-text-right" >
+                    <div id="subsearch" class="nav-item is-search is-hidden">
+                        <div class="control">
+                            <input type="text" class="input textFilter-input" placeholder="Search">
+                        </div>
+                    </div>
+                    <a id="show-subsearch" class="nav-item is-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    </a>
+                    <a id="hide-subsearch" class="nav-item is-icon is-hidden">
+                        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="column collections-header is-home-v2 pl-0-ph  is-hidden-desktop mobile-s-header pt-0">
+              <div class="option-tabs is-friends">  
+                <a href="/groups/all" class="all_tab option-tab {{#if check_if_active_url 'all'}}is-active{{/if}}">
+                    <span class="all_groups_">All</span>
+                    </a>
+                <a href="/groups/pending" class="pending_tab option-tab {{#if check_if_active_url 'pending'}}is-active{{/if}}" >
+                    <span class="pending_groups_">Pending </span>
+                    </a>
+                {{#each fetch_logged_in_user}}
+                    {{#if equals_multiple user_type }}
+                    <a href="/groups/by_me" class="created_by_me option-tab {{#if check_if_active_url 'by_me'}}is-active{{/if}}" >
+                    <span class="created_by_me_group_">By me </span>
+                    </a>
+                    {{/if}}   
+                    {{/each}}
+                    {{#each fetch_logged_in_user}}
+                {{#unless equals user_type 'ATHLETE'}}
+                <a class="new-create-btn create_group" >
+                    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                    Create Group
+                </a>
+                {{/unless}}
+                {{/each}}
+            </div>
+      </div>
+        {{> Template.dynamic template=groups_card_layout}}
+    </div>
+</template>
